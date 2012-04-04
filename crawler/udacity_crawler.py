@@ -31,9 +31,12 @@ def get_all_links(page, url):
 	for link in page.find_all('a'):
 		link_url = link.get('href')
 		print "Found a link: ", link_url
-		if link_url == None:
+		#Ignore links that are 'None'.
+		if link_url == None: 
 			pass
-		elif urlparse(link_url)[5] and not urlparse(link_url)[2]:
+		#Ignore links that are internal page anchors. 
+		#Urlparse considers internal anchors 'fragment identifiers', at index 5. 
+		elif urlparse(link_url)[5] and not urlparse(link_url)[2]: 
 			pass
 		elif urlparse(link_url)[1]:
 			links.append(link_url)
@@ -41,7 +44,7 @@ def get_all_links(page, url):
 			base = page_url[0] + '://' + page_url[1]
 			newlink = urljoin(base, link_url)
 			links.append(newlink)
-		return links
+	return links
 
 def add_new_links(tocrawl, outlinks):
     for link in outlinks:
@@ -79,7 +82,7 @@ def get_page(url):
 			content = urllib.urlopen(url).read()
 			return BeautifulSoup(content), url
 		except:
-			return "", ""
+			return BeautifulSoup(""), ""
 
 def is_udacity(url):
 	parsed_url = urlparse(url)
