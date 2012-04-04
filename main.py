@@ -4,13 +4,12 @@ from google.appengine.ext.webapp.util import run_wsgi_app
  
 @route('/')
 def search_form():
-    message = 'Hello World'
-    output = template('templates/home', data = message)
+    output = template('templates/home')
     return output
 
-@route('/search', method='POST')
+@route('/search', method='GET')
 def process_search():
-	search_query = request.POST.get('search_query', '').strip()
+	search_query = request.GET.get('search_query', '').strip()
 	return template('templates/results', search_query=search_query)
  
 def main():

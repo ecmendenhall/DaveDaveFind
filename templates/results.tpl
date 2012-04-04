@@ -32,7 +32,7 @@ body { padding-top: 60px; }
 <div class="container">
 		<span class="brand">
 		<h2><a href="/">DaveDave<strong class="orange">Find</strong></a></h2></span>
-		<form class="navbar-form form-inline" action="/search" method="POST" >
+		<form class="navbar-form form-inline" action="/search" method="GET" >
   				<input type="text" name="search_query" class="input-xlarge">
   				<button type="submit" class="btn btn-warning"><i class="icon-search icon-white"></i></button>
 		</form>

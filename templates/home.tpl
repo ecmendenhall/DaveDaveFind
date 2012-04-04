@@ -32,7 +32,7 @@
 	</div>
 	<div class="row">
 		<div class="span6 offset3">
-			<form action="/search" method="POST" class="well form-search">
+			<form action="/search" method="GET" class="well form-search">
   				<input type="text" name="search_query" class="input-xlarge">
   				<button type="submit" class="btn btn-warning"><i class="icon-search icon-white"></i></button>
 			</form>
