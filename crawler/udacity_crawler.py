@@ -3,6 +3,7 @@
 from bs4 import BeautifulSoup
 from urlparse import urlparse, urljoin
 import urllib
+import robotparser
 
 def crawl_web(seed): # returns index, graph of inlinks
 	if is_udacity(seed):
@@ -27,6 +28,10 @@ def crawl_web(seed): # returns index, graph of inlinks
 def get_all_links(page, url):
 	links = []
 	page_url = urlparse(url)
+	base = page_url[0] + '://' + page_url[1]
+	robots_url = base + 'robots.txt'
+	rp = robotparser.RobotFileParser()
+	rp.set_url(robots_url)
 	print "Page url: " , page_url
 	for link in page.find_all('a'):
 		link_url = link.get('href')
@@ -34,6 +39,9 @@ def get_all_links(page, url):
 		#Ignore links that are 'None'.
 		if link_url == None: 
 			pass
+		elif not rp.can_fetch('*', link_url):
+			print "Page off limits!" 
+			pass		
 		#Ignore links that are internal page anchors. 
 		#Urlparse considers internal anchors 'fragment identifiers', at index 5. 
 		elif urlparse(link_url)[5] and not urlparse(link_url)[2]: 
@@ -41,7 +49,6 @@ def get_all_links(page, url):
 		elif urlparse(link_url)[1]:
 			links.append(link_url)
 		else:
-			base = page_url[0] + '://' + page_url[1]
 			newlink = urljoin(base, link_url)
 			links.append(newlink)
 	return links
@@ -93,4 +100,4 @@ def is_udacity(url):
 	
         	
 cache = {}
-print crawl_web('http://www.udacity.com/overview/Course/cs101')
+print crawl_web('http://www.udacity.com/ajax/')
