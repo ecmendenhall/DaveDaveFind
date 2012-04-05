@@ -28,18 +28,22 @@ def crawl_web(seed): # returns index, graph of inlinks
 def get_all_links(page, url):
 	links = []
 	page_url = urlparse(url)
+	print "PAGE URL: " , page_url
 	base = page_url[0] + '://' + page_url[1]
-	robots_url = base + 'robots.txt'
-	rp = robotparser.RobotFileParser()
-	rp.set_url(robots_url)
-	print "Page url: " , page_url
+	print "BASE URL: " , base
+	robots_url = urljoin(base, '/robots.txt')
+	print "ROBOTS URL: " , robots_url
+	parser = robotparser.RobotFileParser()
+	parser.set_url(robots_url)
+	parser.read()
+	print parser
 	for link in page.find_all('a'):
 		link_url = link.get('href')
 		print "Found a link: ", link_url
 		#Ignore links that are 'None'.
 		if link_url == None: 
 			pass
-		elif not rp.can_fetch('*', link_url):
+		elif not parser.can_fetch('*', link_url):
 			print "Page off limits!" 
 			pass		
 		#Ignore links that are internal page anchors. 
@@ -81,6 +85,15 @@ def lookup(index, keyword):
         return None
 
 def get_page(url):
+	page_url = urlparse(url)
+	base = page_url[0] + '://' + page_url[1]
+	robots_url = base + '/robots.txt'
+	rp = robotparser.RobotFileParser()
+	rp.set_url(robots_url)
+	rp.read()
+	if not rp.can_fetch('*', url):
+		print "Page off limits!"
+		return BeautifulSoup(""), ""
 	if url in cache:
 		return cache[url]
 	else:
@@ -92,12 +105,12 @@ def get_page(url):
 			return BeautifulSoup(""), ""
 
 def is_udacity(url):
+	udacity_urls = ['www.udacity.com', 'www.udacity-forums.com']
 	parsed_url = urlparse(url)
-	if parsed_url[1] == 'www.udacity.com':
+	if parsed_url[1] in udacity_urls:
 		return True
 	else:
 		return False
-	
         	
 cache = {}
-print crawl_web('http://www.udacity.com/ajax/')
+print crawl_web('http://www.udacity-forums.com/')
