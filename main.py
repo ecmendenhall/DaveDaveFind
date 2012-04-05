@@ -1,6 +1,9 @@
 from framework import bottle
 from framework.bottle import route, template, request, error, debug
 from google.appengine.ext.webapp.util import run_wsgi_app
+from google.appengine.ext import db
+from models import PythonTerm
+		
  
 @route('/')
 def search_form():
@@ -10,6 +13,12 @@ def search_form():
 @route('/search', method='GET')
 def process_search():
 	search_query = request.GET.get('search_query', '').strip()
+	if search_query[0] == '`':
+		term = search_query[1:]
+		q = PythonTerm.all()
+		q.filter('term =', term)
+		python_term = q.fetch(1)[0].definition
+		return template('templates/results', search_query=search_query, python_term=python_term)
 	return template('templates/results', search_query=search_query)
  
 def main():

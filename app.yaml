@@ -6,6 +6,11 @@ api_version: 1
 handlers:
 - url: /styles
   static_dir: styles
+
+- url: /remote_api
+  script: $PYTHON_LIB/google/appengine/ext/remote_api/handler.py
+  #login: admin
  
 - url: /.*
   script: main.py
+

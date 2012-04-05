@@ -45,6 +45,9 @@ body { padding-top: 60px; }
 		<div class="span6 offset3">
 			<h3>You searched for:</h3>
 			<p>{{ search_query }}</p>
+			%if python_term:
+			<p>{{ python_term }}></p>
+			%end
 		</div>
 	</div>
 </div>

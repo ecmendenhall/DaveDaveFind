@@ -1,5 +1,6 @@
 from bs4 import BeautifulSoup
 import io
+import csv
 
 def make_function_dict(page):
 	# Open the documentation HTML file and read it into BeautifulSoup.
@@ -22,8 +23,21 @@ def make_function_dict(page):
 	
 	return function_dict
 
+def write_csv(filename, dict):
+	f = open(filename, 'wt')
+	try:
+		writer = csv.writer(f)
+		writer.writerow(['term', 'definition'])
+		for key in dict:
+			ascii_key = key.encode('ascii', 'ignore')
+			ascii_def = dict[key].encode('ascii', 'ignore')
+			writer.writerow([ascii_key, ascii_def])
+	finally:
+		f.close()
+		print "Finished writing CSV file."
+
 dict = make_function_dict('/Users/connormendenhall/Python/DaveDaveFind/DaveDaveFind/pythondocs/library/functions.html')
 
-print dict['enumerate']
+write_csv('function_dict.csv', dict)
 	
 	
