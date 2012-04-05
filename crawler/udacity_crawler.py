@@ -1,9 +1,10 @@
 # coding=utf8
 
+import urllib
+import robotexclusionrulesparser as rerp
 from bs4 import BeautifulSoup
 from urlparse import urlparse, urljoin
-import urllib
-import robotparser
+
 
 def crawl_web(seed): # returns index, graph of inlinks
 	if is_udacity(seed):
@@ -22,28 +23,30 @@ def crawl_web(seed): # returns index, graph of inlinks
 			outlinks = get_all_links(soup, url)
 			graph[page] = outlinks
 			add_new_links(tocrawl, outlinks)
+			#print tocrawl
 			crawled.append(page)
+			#print crawled
 	return index, graph
 
 def get_all_links(page, url):
 	links = []
 	page_url = urlparse(url)
-	print "PAGE URL: " , page_url
+	#print "PAGE URL: " , page_url
 	base = page_url[0] + '://' + page_url[1]
-	print "BASE URL: " , base
+	#print "BASE URL: " , base
 	robots_url = urljoin(base, '/robots.txt')
-	print "ROBOTS URL: " , robots_url
-	parser = robotparser.RobotFileParser()
-	parser.set_url(robots_url)
-	parser.read()
-	print parser
+	#print "ROBOTS URL: " , robots_url
+	rp = rerp.RobotFileParserLookalike()
+	rp.set_url(robots_url)
+	rp.read()
+	#print rp
 	for link in page.find_all('a'):
 		link_url = link.get('href')
 		print "Found a link: ", link_url
 		#Ignore links that are 'None'.
 		if link_url == None: 
 			pass
-		elif not parser.can_fetch('*', link_url):
+		elif not rp.can_fetch('*', link_url):
 			print "Page off limits!" 
 			pass		
 		#Ignore links that are internal page anchors. 
@@ -88,7 +91,7 @@ def get_page(url):
 	page_url = urlparse(url)
 	base = page_url[0] + '://' + page_url[1]
 	robots_url = base + '/robots.txt'
-	rp = robotparser.RobotFileParser()
+	rp = rerp.RobotFileParserLookalike()
 	rp.set_url(robots_url)
 	rp.read()
 	if not rp.can_fetch('*', url):
