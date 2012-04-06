@@ -2,7 +2,7 @@ from framework import bottle
 from framework.bottle import route, template, request, error, debug
 from google.appengine.ext.webapp.util import run_wsgi_app
 from google.appengine.ext import db
-from models import PythonTerm
+from models import PythonDefinition, PageUrl, SearchTerm
 		
  
 @route('/')
@@ -13,13 +13,19 @@ def search_form():
 @route('/search', method='GET')
 def process_search():
 	search_query = request.GET.get('search_query', '').strip()
-	if search_query[0] == '`':
-		term = search_query[1:]
-		q = PythonTerm.all()
-		q.filter('term =', term)
-		python_term = q.fetch(1)[0].definition
-		return template('templates/results', search_query=search_query, python_term=python_term)
-	return template('templates/results', search_query=search_query)
+	
+	# Get all SearchTerm objects that match the search_query.
+	q = SearchTerm.all().filter('term =', search_query).get()
+		
+	# Now get the PageUrls that are associated with the term.
+	page_urls = q.pages
+		
+	# Sort them by dave_rank and return the top five.
+	results = page_urls.order('-dave_rank').fetch(5)
+	
+	
+	
+	return template('templates/results', search_query=search_query, results=results)
  
 def main():
     debug(True)

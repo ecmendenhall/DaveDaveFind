@@ -43,10 +43,10 @@ body { padding-top: 60px; }
 <div class="container">
 		<div class="row">
 		<div class="span6 offset3">
-			<h3>You searched for:</h3>
-			<p>{{ search_query }}</p>
-			%if python_term:
-			<p>{{ python_term }}></p>
+			<h3>You searched for: {{ search_query }}</h3>
+			%if results:
+				%for page in results:
+					<a href="{{ page.url }}">{{ page.url }}</a>
 			%end
 		</div>
 	</div>
