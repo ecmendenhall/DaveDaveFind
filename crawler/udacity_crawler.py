@@ -4,6 +4,7 @@ import urllib
 import robotexclusionrulesparser as rerp
 from bs4 import BeautifulSoup
 from urlparse import urlparse, urljoin
+import csv
 
 
 def crawl_web(seed, max_pages, max_depth): # returns index, graph of inlinks
@@ -140,15 +141,51 @@ def is_udacity(url):
 		return True
 	else:
 		return False
-        	
+
+def write_search_terms(filename, index):
+	f = open(filename, 'wt')
+	try:
+		writer = csv.writer(f)
+		writer.writerow(['term'])
+		for term in index:
+			ascii_term = term.encode('ascii', 'ignore')
+			writer.writerow([ascii_term])
+	finally:
+		f.close()
+		print "Finished writing CSV file."
+
+def write_url_info(filename, index, ranks):
+	f = open(filename, 'wt')
+	try:
+		writer = csv.writer(f)
+		writer.writerow(['term', 'url', 'dave_rank'])
+		for term in index:
+			# Get the term's list of urls
+			url_list = index[term]
+			for url in url_list:
+				ascii_url = url.encode('ascii', 'ignore')
+				ascii_term = term.encode('ascii', 'ignore')
+				dave_rank = ranks[url]
+				writer.writerow([ascii_term, ascii_url, dave_rank])
+	finally:
+		f.close()
+		print "Finished writing CSV file."
+
 cache = {}
 max_pages = 100
 max_depth = 10
-index, graph = crawl_web('http://www.udacity.com/', max_pages, max_depth)
-ranks = compute_ranks(graph)
+	
+def start_crawl():        		
+	index, graph = crawl_web('http://www.udacity.com/cs101x/index.html', max_pages, max_depth)
+	ranks = compute_ranks(graph)
+	write_search_terms('search_terms.csv', index)
+	write_url_info('url_info.csv', index, ranks)
 
-print "INDEX: ", index
-print ""
-print "GRAPH: ", graph
-print ""
-print "RANKS: ", ranks
+	print "INDEX: ", index
+	print ""
+	print "GRAPH: ", graph
+	print ""
+	print "RANKS: ", ranks
+
+if __name__ == "__main__":
+	start_crawl()
