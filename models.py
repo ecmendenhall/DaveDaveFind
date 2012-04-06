@@ -1,10 +1,27 @@
 from google.appengine.ext import db
 
-class PythonTerm(db.Model):
-	"""Models a term from the Python glossary."""
+class SearchTerm(db.Model):
+	"""Models a search term."""
 	term = db.StringProperty()
-	definition = db.TextProperty()
+	
+class PageUrl(db.Model):
+	"""Models a URL and its Daverank from the index."""
+	# A page can be associated with many search terms...
+	term = db.ReferenceProperty(SearchTerm,
+								collection_name='pages')
+	
+	#...but each page has a URL and Daverank.
+	url = db.StringProperty()
+	dave_rank = db.FloatProperty()
 
-def store_pythonterm(query, result):
-		pythonterm = PythonTerm(term=query, definition=result)
-		pythonterm.put()
+class PythonDefinition(db.Model):
+	"""Models a definition from the Python glossary."""
+	# All definitions are associated with search terms,
+	# but not all search terms are associated with definitions.
+	term = db.ReferenceProperty(SearchTerm,
+								collection_name='python_terms')
+	definition = db.TextProperty()
+	
+	
+	
+									
