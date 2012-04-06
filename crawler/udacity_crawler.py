@@ -6,9 +6,9 @@ from bs4 import BeautifulSoup
 from urlparse import urlparse, urljoin
 
 
-def crawl_web(seed): # returns index, graph of inlinks
+def crawl_web(seed, max_pages, max_depth): # returns index, graph of inlinks
 	if is_udacity(seed):
-		tocrawl = [seed]
+		tocrawl = [[seed, 0]]
 	else: 
 		print "This seed is not a Udacity site!"
 		return
@@ -16,13 +16,15 @@ def crawl_web(seed): # returns index, graph of inlinks
 	graph = {}  # <url>, [list of pages it links to]
 	index = {} 
 	while tocrawl: 
-		page = tocrawl.pop()
-		if page not in crawled:
+		page, depth = tocrawl.pop()
+		print "CURRENT DEPTH: ", depth
+		print "PAGES CRAWLED: ", len(crawled)
+		if page not in crawled and len(crawled) < max_pages and depth <= max_depth:
 			soup, url = get_page(page)
 			add_page_to_index(index, page, soup)
 			outlinks = get_all_links(soup, url)
 			graph[page] = outlinks
-			add_new_links(tocrawl, outlinks)
+			add_new_links(tocrawl, outlinks, depth)
 			#print tocrawl
 			crawled.append(page)
 			#print crawled
@@ -31,11 +33,14 @@ def crawl_web(seed): # returns index, graph of inlinks
 def get_all_links(page, url):
 	links = []
 	page_url = urlparse(url)
-	#print "PAGE URL: " , page_url
-	base = page_url[0] + '://' + page_url[1]
-	#print "BASE URL: " , base
-	robots_url = urljoin(base, '/robots.txt')
-	#print "ROBOTS URL: " , robots_url
+	print "PAGE URL: " , page_url
+	if page_url[0]:
+		base = page_url[0] + '://' + page_url[1]
+		print "BASE URL: " , base
+		robots_url = urljoin(base, '/robots.txt')
+		print "ROBOTS URL: " , robots_url
+	else:
+		robots_url = "http://www.udacity-forums.com/robots.txt"
 	rp = rerp.RobotFileParserLookalike()
 	rp.set_url(robots_url)
 	rp.read()
@@ -60,11 +65,11 @@ def get_all_links(page, url):
 			links.append(newlink)
 	return links
 
-def add_new_links(tocrawl, outlinks):
+def add_new_links(tocrawl, outlinks, depth):
     for link in outlinks:
         if link not in tocrawl:
         	if is_udacity(link):
-        		tocrawl.append(link)
+        		tocrawl.append([link, depth+1])
 
 def add_page_to_index(index, url, content):
 	try:
@@ -116,4 +121,9 @@ def is_udacity(url):
 		return False
         	
 cache = {}
-print crawl_web('http://www.udacity.com/')
+max_pages = 100
+max_depth = 10
+index, graph = crawl_web('http://www.udacity.com/cs101x/index.html', max_pages, max_depth)
+print "INDEX: ", index
+print ""
+print "GRAPH: ", graph
