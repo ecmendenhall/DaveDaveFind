@@ -112,6 +112,27 @@ def get_page(url):
 		except:
 			return BeautifulSoup(""), ""
 
+def compute_ranks(graph):
+    d = 0.8 # damping factor
+    numloops = 10
+    
+    ranks = {}
+    npages = len(graph)
+    for page in graph:
+        ranks[page] = 1.0 / npages
+    
+    for i in range(0, numloops):
+        newranks = {}
+        for page in graph:
+            newrank = (1 - d) / npages
+            for node in graph:
+                if page in graph[node]:
+                    newrank = newrank + d * (ranks[node] / len(graph[node]))
+            
+            newranks[page] = newrank
+        ranks = newranks
+    return ranks
+
 def is_udacity(url):
 	udacity_urls = ['www.udacity.com', 'www.udacity-forums.com']
 	parsed_url = urlparse(url)
@@ -123,7 +144,11 @@ def is_udacity(url):
 cache = {}
 max_pages = 100
 max_depth = 10
-index, graph = crawl_web('http://www.udacity.com/cs101x/index.html', max_pages, max_depth)
+index, graph = crawl_web('http://www.udacity.com/', max_pages, max_depth)
+ranks = compute_ranks(graph)
+
 print "INDEX: ", index
 print ""
 print "GRAPH: ", graph
+print ""
+print "RANKS: ", ranks
