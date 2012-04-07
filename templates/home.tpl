@@ -19,25 +19,31 @@
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#686868', endColorstr='#444444', GradientType=0);
 }
 
+#searchbox{ float: left; white-space: nowrap; }
 
 </style>
+<link rel="stylesheet" href="/styles/bootstrap-responsive.css" type="text/css">
 <title>DaveDaveFind</title>
 </head>
 <body>
 <div class="container">
 	<div class="row">
-		<div class="span6 offset3">
+		
+		
+		<div class="span6 offset4">
+		
 		<h1>DaveDave<strong class="orange">Find</strong></h1>
-		</div>
-	</div>
-	<div class="row">
-		<div class="span6 offset3">
-			<form action="/search" method="GET" class="well form-search">
-  				<input type="text" name="search_query" class="input-xlarge">
+
+		<form action="/search" method="GET" id="searchbox" class="well form-search">
+  				<input type="text" name="search_query">
   				<button type="submit" class="btn btn-warning"><i class="icon-search icon-white"></i></button>
 			</form>
+
+		
+			
 		</div>
 	</div>
+	
 </div>
 </body>
 </html>

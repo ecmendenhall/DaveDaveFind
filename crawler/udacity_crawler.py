@@ -78,7 +78,11 @@ def add_page_to_index(index, url, content):
 	except:
 		return
 	words = text.split()
+	punctuation = '!"#$%&\'()*+,-./:;<=>?@[\\]^_`{|}~'
 	for word in words:
+		word = word.lstrip(punctuation)
+		word = word.rstrip(punctuation)
+		word = word.lower()
 		add_to_index(index, word, url)
         
 def add_to_index(index, keyword, url):
@@ -172,11 +176,11 @@ def write_url_info(filename, index, ranks):
 		print "Finished writing CSV file."
 
 cache = {}
-max_pages = 100
+max_pages = 25
 max_depth = 10
 	
 def start_crawl():        		
-	index, graph = crawl_web('http://www.udacity.com/cs101x/index.html', max_pages, max_depth)
+	index, graph = crawl_web('http://www.udacity.com/', max_pages, max_depth)
 	ranks = compute_ranks(graph)
 	write_search_terms('search_terms.csv', index)
 	write_url_info('url_info.csv', index, ranks)

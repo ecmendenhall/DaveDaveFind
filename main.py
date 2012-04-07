@@ -13,17 +13,19 @@ def search_form():
 @route('/search', method='GET')
 def process_search():
 	search_query = request.GET.get('search_query', '').strip()
+	lowercase_query = search_query.lower()
 	
 	# Get all SearchTerm objects that match the search_query.
-	q = SearchTerm.all().filter('term =', search_query).get()
-		
+	q = SearchTerm.all().filter('term =', lowercase_query).get()	
+	
 	# Now get the PageUrls that are associated with the term.
-	page_urls = q.pages
-		
-	# Sort them by dave_rank and return the top five.
-	results = page_urls.order('-dave_rank').fetch(5)
+	if q:
+		page_urls = q.pages
+		# Sort them by dave_rank and return the top five.
+		results = page_urls.order('-dave_rank').fetch(5)
 	
-	
+	else:
+		results = None
 	
 	return template('templates/results', search_query=search_query, results=results)
  

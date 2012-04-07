@@ -24,6 +24,7 @@ body { padding-top: 60px; }
 }
 
 </style>
+<link rel="stylesheet" href="/styles/bootstrap-responsive.css" type="text/css">
 <title>DaveDaveFind: {{ search_query }}</title>
 </head>
 <body>
@@ -46,7 +47,10 @@ body { padding-top: 60px; }
 			<h3>You searched for: {{ search_query }}</h3>
 			%if results:
 				%for page in results:
-					<a href="{{ page.url }}">{{ page.url }}</a>
+				<a href="{{ page.url }}">{{ page.url }}</a>
+				%end
+			%else:
+				<p>No results found for {{ search_query }}.<p>
 			%end
 		</div>
 	</div>
