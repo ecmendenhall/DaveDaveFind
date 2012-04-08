@@ -7,6 +7,8 @@
 body { padding-top: 60px; }
 .orange { color: #F7A900; }
 
+.results a { color: #F7A900; }
+
 .navbar h2 a { color: #ffffff; }
 .navbar-form { margin-top: 10px; }
 
@@ -22,6 +24,7 @@ body { padding-top: 60px; }
   background-repeat: repeat-x;
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#686868', endColorstr='#333333', GradientType=0);
 }
+
 
 </style>
 <link rel="stylesheet" href="/styles/bootstrap-responsive.css" type="text/css">
@@ -45,10 +48,17 @@ body { padding-top: 60px; }
 		<div class="row">
 		<div class="span6 offset3">
 			<h3>You searched for: {{ search_query }}</h3>
-			%if results:
-				%for page in results:
-				<a href="{{ page.url }}">{{ page.url }}</a>
+			%if page_dicts:
+				<div>
+				<h2>Webpages:</h2>
+				%for page in page_dicts:
+				<div class="results well">
+				<strong>{{ page['title'] }}</strong>
+				<p><a href="{{ page['url'] }}">{{ page['url'][:70] }}</a></p>
+				<p>{{ page['text'] }}</p>				
+				</div>
 				%end
+				</div>
 			%else:
 				<p>No results found for {{ search_query }}.<p>
 			%end

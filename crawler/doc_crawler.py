@@ -27,7 +27,7 @@ def write_csv(filename, dict):
 	f = open(filename, 'wt')
 	try:
 		writer = csv.writer(f)
-		writer.writerow(['term', 'definition'])
+		writer.writerow(['term'])
 		for key in dict:
 			ascii_key = key.encode('ascii', 'ignore')
 			ascii_def = dict[key].encode('ascii', 'ignore')
