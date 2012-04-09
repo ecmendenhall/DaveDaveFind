@@ -6,6 +6,7 @@ from bs4 import BeautifulSoup
 from urlparse import urlparse, urljoin
 import csv
 from index_pdfs import index_pdfs
+from add_videos import add_videos_to_index
 
 
 def crawl_web(seed, max_pages, max_depth): # returns index, graph of inlinks
@@ -34,6 +35,7 @@ def crawl_web(seed, max_pages, max_depth): # returns index, graph of inlinks
 			crawled.append(page)
 			#print crawled
 	index, pagedata = index_pdfs(index, pagedata)
+	index = add_videos_to_index('subtitle_index.csv', '/Users/connormendenhall/Python/DaveDaveFind/DaveDaveFind/data/video_info.csv', index)
 	index = undupe_index(index)
 	return index, graph, pagedata
 
@@ -95,7 +97,7 @@ def add_page_to_index(index, url, content):
 	words = text.split()
 	punctuation = '!"#$%&\'()*+,-./:;<=>?@[\\]^_`{|}~'
 	stopwords = ['']
-	with open('stopwords.csv', 'rb') as f:
+	with open('/Users/connormendenhall/Python/DaveDaveFind/DaveDaveFind/data/stopwords.csv', 'rb') as f:
 		wordlist = csv.reader(f)
 		for stopword in wordlist:
 			stopwords.append(stopword[0])
@@ -174,10 +176,13 @@ def write_search_terms(filename, index):
 		writer = csv.writer(f)
 		writer.writerow(['term', 'urls'])
 		for term in index:
-			ascii_term = term.encode('ascii', 'ignore')
-			url_list = index[term]
-			urlstring = ",".join(url_list)
-			writer.writerow([ascii_term, urlstring])
+			if len(term) > 500:
+				pass
+			else:
+				ascii_term = term.encode('ascii', 'ignore')
+				url_list = index[term]
+				urlstring = ",".join(url_list)
+				writer.writerow([ascii_term, urlstring])
 	finally:
 		f.close()
 		print "[write_search_terms()] Finished writing SearchTerm CSV file."
@@ -191,7 +196,8 @@ def write_url_info(filename, index, ranks, pagedata):
 		for term in index:
 			url_list = index[term]
 			for url in url_list:
-				all_urls.add(url)
+				if url.find('youtube') == -1:
+					all_urls.add(url)
 		for url in all_urls:
 			ascii_url = url.encode('ascii', 'ignore')
 			if url in ranks:
@@ -232,15 +238,14 @@ def undupe_index(index):
 			
 
 cache = {}
-max_pages = 10
+max_pages = 500
 max_depth = 10
 	
 def start_crawl():        		
 	index, graph, pagedata = crawl_web('http://www.udacity.com/overview/Course/cs101/', max_pages, max_depth)
 	ranks = compute_ranks(graph)
-	write_search_terms('search_terms.csv', index)
-	write_url_info('url_info.csv', index, ranks, pagedata)
-	undupe_csv('search_terms.csv', 'unduped_searchterms.csv')
+	write_search_terms('/Users/connormendenhall/Python/DaveDaveFind/DaveDaveFind/data/search_terms.csv', index)
+	write_url_info('/Users/connormendenhall/Python/DaveDaveFind/DaveDaveFind/data/url_info.csv', index, ranks, pagedata)
 
 
 if __name__ == "__main__":

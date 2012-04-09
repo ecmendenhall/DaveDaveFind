@@ -30,7 +30,7 @@ body { padding-top: 60px; }
 
 </style>
 <link rel="stylesheet" href="/styles/bootstrap-responsive.css" type="text/css">
-<title>DaveDaveFind: {{ search_query }}</title>
+<title>DaveDaveFind: 404</title>
 </head>
 <body>
 <div class="navbar navbar-fixed-top">
@@ -49,44 +49,9 @@ body { padding-top: 60px; }
 <div class="container">
 		<div class="row">
 			<div class="span6">
-		<h2>You searched for: <strong class="orange">{{ search_query }}</strong></h2>
-		%if not results:
-			<p>No results found for {{ search_query }}.<p>
-		%end
+		<h1>404: DaveDave<strong class="orange">NotFound</strong></h1>
 			</div>
 		</div>
-		<div class="row">
-		<div class="span5" id="fixed">
-			%if video_dicts:
-				<div>
-				<h2>Videos:</h2>
-				%for video in video_dicts:
-				<div class="results well">
-				<strong>{{ video['title'] }}</strong>
-				<p><a href="{{ video['url'] }}">{{ video['url'][:70] }}</a></p>	
-				<iframe width="430" height="248" src="http://www.youtube.com/embed/{{ video['id'] }}?rel=0&start={{ video['start'] }}&wmode=transparent" frameborder="0" allowfullscreen></iframe>			
-				</div>
-				%end
-				</div>
-			</div>
-			<div class="span7">
-			%if page_dicts:
-				<div>
-				<h2>Webpages:</h2>
-				%for page in page_dicts:
-				<div class="results well">
-				<strong>{{ page['title'] }}</strong>
-				<p><a href="{{ page['url'] }}">{{ page['url'][:70] }}</a></p>
-					%if show_daverank:
-					<p>DaveRank: {{ page['daverank'] }}</p>
-					%end
-				<p>{{ page['text'] }}</p>				
-				</div>
-				%end
-				</div>
-			</div>
 		</div>
-	</div>
-</div>
 </body>
 </html>

@@ -13,6 +13,16 @@ class Page(db.Model):
 	dave_rank = db.FloatProperty()
 	doc = db.BooleanProperty()
 
+class Video(db.Model):
+	"""Models a video in the index."""
+	url = db.StringProperty()
+	title = db.StringProperty()
+	filename = db.StringProperty()
+	id = db.StringProperty()
+	type = db.StringProperty()
+	views = db.IntegerProperty()
+	text = db.TextProperty()
+
 class PythonTerm(db.Model):
 	"""Models a definition from the Python glossary."""
 	# All definitions are associated with search terms,
