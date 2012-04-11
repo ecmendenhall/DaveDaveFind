@@ -110,16 +110,17 @@ code { color: #000000; }
 				%for page in page_dicts:
 				<div class="results well">
 				<strong>
-				%if page['doc']:
-				[PDF] 
-				%end
+					%if page['doc']:
+					[PDF] 
+					%end
 				{{ page['title'] }}</strong>
 				<p><a href="{{ page['url'] }}">{{ page['url'][:70] }}</a></p>
 					%if show_daverank:
 					<p>DaveRank: {{ page['daverank'] }}</p>
 					%end
-				<p>{{ page['text'] }}</p>				
+				<p>{{ page['text'] }}…</p>				
 				</div>
+				%end
 			%end
 				</div>
 			</div>

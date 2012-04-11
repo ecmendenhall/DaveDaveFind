@@ -28,7 +28,7 @@ def process_search():
 	
 	#Move this stuff to its own procedure tomorrow!
 	if query.find('--') == 0:
-		if query.find('--forum') == 0:
+		if query.find('--cs101') == 0:
 			redirect_url = 'http://www.udacity-forums.com/cs101/search/?q=' + urllib.quote(query[8:])
 			return redirect(redirect_url)	
 		if query.find('--cs373') == 0:
@@ -87,8 +87,9 @@ def process_search():
 	if query_urls:
 		query_url_set = set.intersection(*query_urls)
 		query_url_list = list(query_url_set)	
-	
-		results = True
+		
+		if len(query_url_list) > 0:
+			results = True
 		if len(query_url_list) > 30:
 			query_url_list = query_url_list[0:30]
 			
@@ -98,13 +99,13 @@ def process_search():
 			page_info = {}
 			query_index = page.text.find(query)
 			if query_index != -1:
-				i = query_index - 50
-				j = query_index + 450
+				i = page.text.find(' ', query_index-25)
+				excerpt_words = page.text[i:].split(' ') 
 			else:
-				i = 0
-				j = 500
-			text_string = page.text[i:j]
-			page_info['text'] = text_string
+				excerpt_words = page.text.split(' ')
+			excerpt = ' '.join(excerpt_words[:50])
+			
+			page_info['text'] = excerpt
 			page_info['title'] = page.title
 			page_info['url'] = page.url
 			page_info['daverank'] = page.dave_rank
