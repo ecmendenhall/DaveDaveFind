@@ -204,7 +204,7 @@ def write_url_info(filename, index, ranks, pagedata):
 				dave_rank = ranks[url]
 				doc = False
 			else:
-				dave_rank = 0
+				dave_rank = 0.01
 				doc = True
 			title = pagedata[url][0]
 			text = pagedata[url][1]

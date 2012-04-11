@@ -116,7 +116,7 @@ code { color: #000000; }
 				{{ page['title'] }}</strong>
 				<p><a href="{{ page['url'] }}">{{ page['url'][:70] }}</a></p>
 					%if show_daverank:
-					<p>DaveRank: {{ page['daverank'] }}</p>
+					<p><code>DaveRank: {{ page['daverank'] }}</code></p>
 					%end
 				<p>{{ page['text'] }}…</p>				
 				</div>
