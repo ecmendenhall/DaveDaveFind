@@ -28,7 +28,7 @@ def process_search():
 	
 	#Move this stuff to its own procedure tomorrow!
 	if query.find('--') == 0:
-		if query.find('--cs101') == 0:
+		if query.find('--forum') == 0:
 			redirect_url = 'http://www.udacity-forums.com/cs101/search/?q=' + urllib.quote(query[8:])
 			return redirect(redirect_url)	
 		if query.find('--cs373') == 0:

@@ -65,7 +65,7 @@ code { color: #000000; }
 		%end
 		</strong></h2>
 		%if not results:
-			<p>No results found for {{ search_query }}.<p>
+			<p>No results found for {{ search_query }}. Try clicking on one of the individual terms above.<p>
 		%end
 		</div>
 		</div>
