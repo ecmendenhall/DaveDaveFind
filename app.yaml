@@ -7,6 +7,10 @@ handlers:
 - url: /styles
   static_dir: styles
 
+- url: /favicon\.ico
+  static_files: styles/favicon.ico
+  upload: styles/favicon\.ico
+
 - url: /remote_api
   script: $PYTHON_LIB/google/appengine/ext/remote_api/handler.py
   login: admin

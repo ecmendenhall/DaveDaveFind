@@ -10,11 +10,13 @@ from add_videos import add_videos_to_index
 
 
 def crawl_web(seed, max_pages, max_depth): # returns index, graph of inlinks
-	if is_udacity(seed):
-		tocrawl = [[seed, 0]]
+	tocrawl = []
+	for url in seed:
+		if is_udacity(url):
+			tocrawl.append([url, 0])
 	else: 
 		print "[crawl-web()] This seed is not a Udacity site!"
-		return
+		pass
 	crawled = []
 	graph = {}  # <url>, [list of pages it links to]
 	index = {}
@@ -45,6 +47,8 @@ def get_page_data(page, url, dict):
 	except:
 		title = url
 	try:
+		page.body.style.decompose()
+		page.body.script.decompose()
 		text = page.body.get_text()
 	except:
 		text = ''
@@ -60,7 +64,10 @@ def get_all_links(page, url):
 		robots_url = "http://www.udacity-forums.com/robots.txt"
 	rp = rerp.RobotFileParserLookalike()
 	rp.set_url(robots_url)
-	rp.read()
+	try:
+		rp.read()
+	except:
+		pass
 	#print rp
 	for link in page.find_all('a'):
 		link_url = link.get('href')
@@ -84,10 +91,11 @@ def get_all_links(page, url):
 
 def add_new_links(tocrawl, outlinks, depth):
     for link in outlinks:
-        if link not in tocrawl:
-        	if is_udacity(link):
-        		link = str(link)
-        		tocrawl.append([link, depth+1])
+    	if link:
+        	if link not in tocrawl:
+        		if is_udacity(link):
+        			link = str(link)
+        			tocrawl.append([link, depth+1])
 
 def add_page_to_index(index, url, content):
 	try:
@@ -163,10 +171,12 @@ def compute_ranks(graph):
     return ranks
 
 def is_udacity(url):
-	udacity_urls = ['www.udacity.com', 'www.udacity-forums.com']
+	udacity_urls = ['www.udacity.com', 'www.udacity-forums.com', 'davedavefind.appspot.com']
 	parsed_url = urlparse(url)
 	if parsed_url[1] in udacity_urls:
 		return True
+	elif url == 'http://davedavefind.appspot.com/':
+		return True 
 	else:
 		return False
 
@@ -238,11 +248,12 @@ def undupe_index(index):
 			
 
 cache = {}
-max_pages = 500
+max_pages = 1000
 max_depth = 10
+crawl_list = ['http://www.udacity.com/overview/Course/cs101/', 'http://www.udacity-forums.com/cs101/', 'http://davedavefind.appspot.com/']
 	
 def start_crawl():        		
-	index, graph, pagedata = crawl_web('http://www.udacity.com/overview/Course/cs101/', max_pages, max_depth)
+	index, graph, pagedata = crawl_web(crawl_list, max_pages, max_depth)
 	ranks = compute_ranks(graph)
 	write_search_terms('/Users/connormendenhall/Python/DaveDaveFind/DaveDaveFind/data/search_terms.csv', index)
 	write_url_info('/Users/connormendenhall/Python/DaveDaveFind/DaveDaveFind/data/url_info.csv', index, ranks, pagedata)

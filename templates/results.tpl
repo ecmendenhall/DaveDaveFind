@@ -2,43 +2,7 @@
 <html>
 <head>
 <link rel="stylesheet" href="/styles/bootstrap.css" type="text/css">
-<style>
-
-body { padding-top: 60px; }
-.orange { color: #F7A900; }
-
-a { color: #F7A900; }
-
-a:hover { color: #F7A900; }
-
-code { color: #000000; }
-
-.navbar h2 a { color: #ffffff; }
-.navbar-form { margin-top: 10px; }
-
-
-.navbar-inner {
-  background-color: #686868;
-  background-image: -moz-linear-gradient(top, #686868, #333333);
-  background-image: -ms-linear-gradient(top, #686868, #333333);
-  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#686868), to(#333333));
-  background-image: -webkit-linear-gradient(top, #686868, #333333);
-  background-image: -o-linear-gradient(top, #686868, #333333);
-  background-image: linear-gradient(top, #686868, #333333);
-  background-repeat: repeat-x;
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#686868', endColorstr='#333333', GradientType=0);
-}
-
-#fixed { width: 470px; }
-
-.icon {
-	display: inline;
-	vertical-align: middle;
-}
-
-.source { font-size: 120%; }
-
-</style>
+<link rel="stylesheet" href="/styles/results.css" type="text/css">
 <link rel="stylesheet" href="/styles/bootstrap-responsive.css" type="text/css">
 <title>DaveDaveFind: {{ search_query }}</title>
 </head>
@@ -60,7 +24,7 @@ code { color: #000000; }
 		<div class="row">
 			<div class="span6">
 		<h2>You searched for: <strong class="orange">
-		%for word in query_words:
+		%for word in query_string_words:
 		<a href="/search?search_query={{ word }}">{{ word }}</a>
 		%end
 		</strong></h2>
