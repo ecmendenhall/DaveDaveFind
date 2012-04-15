@@ -1,5 +1,5 @@
 DaveDaveFind is a simple search engine based on the web crawler developed in the [Udacity](http://www.udacity.com/) CS101 course. It is built with the [Bottle](http://bottlepy.org/docs/dev/) web framework by Marcel Hellkamp and designed to run on Google App Engine. The web crawler script `udacity_crawler.py` uses [BeautifulSoup](http://www.crummy.com/software/BeautifulSoup/), an HTML parsing library by Leonard Richardson, and the [Robot Exclusion Rules](http://nikitathespider.com/python/rerp/) parser by Philip Semanchuk.
 
-A working version of this application is available [here](http://davedavefind.appspot.com/).
+A working version of this application is available [here](http://davedavefind.appspot.com/). Detailed development notes for this project are available [here](http://davedavefind.tumblr.com/).
 
 This work is licensed under a Creative Commons [Attribution-NonCommercial-ShareAlike 3.0 Unported License](http://creativecommons.org/licenses/by-nc-sa/3.0/). Please see the included licensing information for further details.
