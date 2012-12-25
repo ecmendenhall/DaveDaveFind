@@ -30,11 +30,11 @@
 	<div class="row">
 		
 		
-		<div class="span6 offset4">
+		<div class="span6 offset4" id="searchdiv">
 		
 		<h1>DaveDave<strong class="orange">Find</strong></h1>
 		<form action="/search" method="GET" id="searchbox" class="well form-search">
-  				<input type="text" name="search_query">
+  				<input id="searchinput" type="text" name="search_query">
   				<button type="submit" class="btn btn-warning"><i class="icon-search icon-white"></i></button>
 			</form>
 
@@ -53,7 +53,7 @@
           About
           <b class="caret"></b>
     </a>
-     <div class="dropdown-menu infobox" data-no-collapse="true"><p><strong>DaveDave<span class="orange">Find</span></strong> was built by <a href="http://twitter.com/ecmendenhall/">@ecmendenhall</a> with lots of help from <a href="http://www.udacity.com/">Udacity</a> and <a href="http://www.cs.virginia.edu/~evans/">David Evans</a>. You can learn to make your own search engine in <a href="http://www.udacity.com/overview/Course/cs101">CS101</a>, read more about this project on its <a href="http://davedavefind.tumblr.com/">development blog</a>, or see the code on <a href="http://github.com/ecmendenhall/DaveDaveFind">GitHub</a>.</p>
+     <div class="dropdown-menu infobox" data-no-collapse="true"><p><strong>DaveDave<span class="orange">Find</span></strong> was built by <a href="http://twitter.com/ecmendenhall/">@ecmendenhall</a> with lots of help from <a href="http://www.udacity.com/">Udacity</a> and <a href="http://www.cs.virginia.edu/~evans/">David Evans</a>. You can learn to make your own search engine in <a href="http://www.udacity.com/overview/Course/cs101">CS101</a>, learn about web applications like this one in <a href="http://www.udacity.com/overview/Course/cs253/">CS253</a>, read more about this project on its <a href="http://davedavefind.tumblr.com/">development blog</a>, or see the code on <a href="http://github.com/ecmendenhall/DaveDaveFind">GitHub</a>.</p>
       <p>The search crawler and web application were written in <a href="http://python.org">Python</a>, using the <a href="http://bottlepy.org/docs/dev/">Bottle</a> web framework on <a href="https://developers.google.com/appengine/">Google App Engine</a>. The crawler code uses <a href="http://www.crummy.com/software/BeautifulSoup/">BeautifulSoup</a> to read HTML, <a href="http://nikitathespider.com/python/rerp/">Nikita the Spider</a> to read robots.txt files, and the <a href="http://duckduckgo.com/api.html">DuckDuckGo API</a> to search Python documentation. Pages are styled with <a href="http://twitter.github.com/bootstrap/index.html">Twitter Bootstrap</a> and enhanced by <a href="http://glyphicons.com/">Glyphicons</a>.
       </div>
   </li>
@@ -64,7 +64,7 @@
           Help
           <b class="caret"></b>
     </a>
-      <div class="dropdown-menu infobox" data-no-collapse="true"><p><strong>DaveDave<span class="orange">Find</span></strong> searches the full-text of the <a href="http://udacity.com/">Udacity website</a>, <a href="http://www.udacity-forums.com/cs101/">CS101 forums</a>, course documents, and lecture transcripts. It supports multi-word lookup (but sometimes delivers better results for single words).</>
+      <div class="dropdown-menu infobox" data-no-collapse="true"><p><strong>DaveDave<span class="orange">Find</span></strong> searches the full-text of the <a href="http://udacity.com/">Udacity website</a>, <a href="http://www.udacity-forums.com/cs101/">CS101 forums</a>, course documents, and lecture transcripts. It supports multi-word lookup (but sometimes delivers better results for single words).</p>
       <p>If your search query is found in a video transcript, it will try to link inside the video to the moment the query occurs. If your search query is a common Python-related term, it will try to look up information in the Python documentation. Try searching for the name of a built-in function or standard library module, like <code>str</code> or <code>urllib</code>.</P>
       <p>The search box also accepts commands inspired by <a href="http://duckduckgo.com/bang.html">bang syntax</a>. Try typing <code>--forum</code> before your search query to search the CS101 discussion forum, <code>--python</code> to search Python documentation, or <code>--daverank</code> to show the DaveRank‌™ for each result underneath its URL.</p> 
       </div>
@@ -82,6 +82,9 @@
     var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
   })();
 </script>
+</div>
+</div>
+</div>
 </div>
 </div>
 </body>
