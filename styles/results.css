@@ -1,4 +1,5 @@
-body { padding-top: 60px; }
+body { padding-top: 80px; }
+
 .orange { color: #F7A900; }
 
 a { color: #F7A900; }
@@ -8,8 +9,10 @@ a:hover { color: #F7A900; }
 code { color: #000000; }
 
 .navbar h2 a { color: #ffffff; }
-.navbar-form { margin-top: 10px; }
 
+.navbar .brand { text-shadow: none; }
+
+.navbar-form { margin-top: 20px; }
 
 .navbar-inner {
   background-color: #686868;

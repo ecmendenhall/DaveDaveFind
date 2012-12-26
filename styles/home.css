@@ -33,12 +33,22 @@
     white-space: nowrap;
 }
 
-#searchdiv {
-    position: relative;
-    z-index: 2000;
+.navbar p { 
+    padding-top: 5px;
 }
 
-.navbar p { padding-top: 5px;}
+.navbar-bottom { width: 100%; }
+
+.navbar .nav > li > a {
+    color: #aaaaaa; 
+    text-shadow: none; }
+
+.navbar .nav li.dropdown.open > .dropdown-toggle, 
+.navbar .nav li.dropdown.active > .dropdown-toggle, 
+.navbar .nav li.dropdown.open.active > .dropdown-toggle {
+    background-color: transparent;
+    color: #aaaaaa;
+}
 
 .navbar-inner {
   background-color: #686868;
@@ -67,14 +77,13 @@
 .dropdown-menu p { 
 	margin-left: 5px;
 	color: #686868;
-	 }
+}
 
 .dropdown-menu { 
 	min-width: 240px;
 	background-color: #f5f5f5;
 	padding: 5px;
- }
+    margin-left: 20px;
+}
 
 code { color: #000000; }
-
-
