@@ -42,9 +42,3 @@ def add_videos_to_index(subtitle_index, output_file, index):
 			pass
 	print "[add_videos_to_index()] Videos added."
 	return index
-
-
-
-		
-
-	
